@@ -3,6 +3,7 @@ from django.template import loader
 from django.template.defaulttags import register
 from requests import post
 from .constants import BACKEND_URL, BACKEND_PORT
+from datetime import datetime
 
 
 @register.filter
@@ -17,9 +18,26 @@ def index(request):
             query = request.GET['Q']
             if query:
                 # Sample results
-                # results = {}
+                s = datetime.now()
+                results = {
+                    "count": 12,
+                    "links": [
+                        {
+                            "url": "https://google.com",
+                            "content_type": "html",
+                            "indexed_on": "Date"
+                        },
+                        {
+                            "url": "https://google.com",
+                            "content_type": "html",
+                            "indexed_on": "Date"
+                        }
+                    ]
+                }
+                e = datetime.now()
+                results['time'] = (e-s).microseconds / 10 ** 6
                 # TODO: Add status checks
-                results = post(f"http://{BACKEND_URL}:{BACKEND_PORT}/search", data={"Q": query}).json()
+                # results = post(f"http://{BACKEND_URL}:{BACKEND_PORT}/search", data={"Q": query}).json()
                 print(results)
                 context = {
                     "Q": query,
@@ -33,3 +51,7 @@ def index(request):
         context = {}
 
     return HttpResponse(index_template.render(context, request))
+
+
+def add_url(request):
+    pass

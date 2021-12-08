@@ -39,28 +39,80 @@
     <!-- Third party CSS and JS ends -->
 
     <!-- Custom CSS and JS -->
-    <!-- <link href="{% static 'css/core.css' %}" rel="stylesheet"> -->
     <!-- Custom CSS and JS ends -->
 </head>
 <body>
-    <h1>Search Engine</h1>
-    <form method="GET" action="/">
-        {% if Q %}
-            <input type="text" placeholder="Query" name="Q" value="{{ Q }}">
-        {% else %}
-            <input type="text" placeholder="Query" name="Q">
-        {% endif %}
-        <input type="submit" placeholder="Go" name="go">
-    </form>
+    <br /><br />
+    <div class="container">
+        <div class="row">
+            <div class="col" style="text-align: center">
+                <a href="/add_url">Click here to manually add a url to the db</a>
+            </div>
+        </div>
+    </div>
+
 
     {% if Q %}
-        <h1>You searched for - {{ Q }}</h1>
-        {% if R %}
-            <h1>Count - {{ R.count }}</h1>
-            <h1>Query - {{ R.query }}</h1>
-        {% else %}
-        {% endif %}
+        <br />
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>mtcs20ck Search Engine</h4>
+                </div>
+                <div class="col-md-4">
+                    <form method="GET" action="/">
+                        <input type="text" placeholder="What to find ?" name="Q" value="{{ Q }}">
+                        <input type="submit" placeholder="Go" name="go">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <h5> Fetched {{ R.count }} results in {{ R.time }} seconds.</h5>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="container">
+            {% for link in R.links %}
+                <div class="row">
+                    <div class="col-md">
+                        <a href="{{ link.url }}">{{ link.url }}</a>
+                    </div>
+                    <div class="col-md">
+                        <p> Type: {{ link.content_type }}</p>
+                    </div>
+                    <div class="col-md">
+                        <p> Indexed On: {{ link.indexed_on }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
     {% else %}
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md" style="text-align: center">
+                <h1>mtcs20ck Search Engine</h1>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col" style="text-align: center">
+                <form method="GET" action="/">
+                    <input type="text" placeholder="What to find ?" name="Q">
+                    <input type="submit" placeholder="Go" name="go">
+                </form>
+            </div>
+        </div>
     {% endif %}
 </body>
 </html>
