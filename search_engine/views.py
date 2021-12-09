@@ -38,7 +38,6 @@ def index(request):
                 results['time'] = (e-s).microseconds / 10 ** 6
                 # TODO: Add status checks
                 # results = post(f"http://{BACKEND_URL}:{BACKEND_PORT}/search", data={"Q": query}).json()
-                print(results)
                 context = {
                     "Q": query,
                     "R": results
@@ -54,4 +53,25 @@ def index(request):
 
 
 def add_url(request):
-    pass
+    index_template = loader.get_template("add_url.html")
+    if request.method == "POST":
+        url = request.POST['url']
+        try:
+            # call the index api
+            context = {
+                "url": url,
+                "result": {
+                    "status": True
+                }
+            }
+        except Exception as e:
+            context = {
+                "url": url,
+                "result": {
+                    "status": False
+                }
+            }
+    else:
+        context = {}
+
+    return HttpResponse(index_template.render(context, request))
